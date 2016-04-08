@@ -1,0 +1,26 @@
+---
+- name: Get iptables rules
+  command: iptables -L --wait
+  register: iptablesrules
+  always_run: yes
+
+- name: Enable iptables at boot
+  service: name=iptables enabled=yes state=started
+
+- name: Open DNS TCP port with iptables
+  command: iptables -I INPUT 1 -p tcp --dport 53 -j ACCEPT -m comment --comment "dns-tcp"
+  when: "'dns-tcp' not in iptablesrules.stdout"
+  notify:
+    - Save iptables rules
+
+- name: Open DNS UDP port with iptables
+  command: iptables -I INPUT 1 -p udp --dport 53 -j ACCEPT -m comment --comment "dns-udp"
+  when: "'dns-udp' not in iptablesrules.stdout"
+  notify:
+    - Save iptables rules
+
+- name: Open DHCP Server port with iptables
+  command: iptables -I INPUT 1 -p udp --dport 67 -j ACCEPT -m comment --comment "dhcp-server"
+  when: "'dhcp-server' not in iptablesrules.stdout"
+  notify:
+    - Save iptables rules

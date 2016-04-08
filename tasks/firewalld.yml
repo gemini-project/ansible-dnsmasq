@@ -1,0 +1,15 @@
+---
+- name: Open firewalld port for DNS TCP
+  firewalld: port=53/tcp permanent=false state=enabled
+  # in case this is a server where firewalld is turned off
+  ignore_errors: yes
+
+- name: Open firewalld port for DNS UDP
+  firewalld: port=53/udp permanent=false state=enabled
+  # in case this is a server where firewalld is turned off
+  ignore_errors: yes
+
+- name: Open firewalld port for DHCP
+  firewalld: port=67/udp permanent=false state=enabled
+  # in case this is a server where firewalld is turned off
+  ignore_errors: yes

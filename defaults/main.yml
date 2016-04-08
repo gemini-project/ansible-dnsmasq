@@ -1,7 +1,9 @@
 # roles/dnsmasq/defaults/main.yml
 ---
-dnsmasq_listen_address: 127.0.0.1
-dnsmasq_domain_needed: false
-dnsmasq_bogus_priv: false
-dnsmasq_authoritative: false
-dnsmasq_expand_hosts: false
+dnsmasq_listen_address: "{{ ansible_default_ipv4.address }}"
+dnsmasq_tftp_server: "{{ ansible_default_ipv4.address }}"
+dnsmasq_boot_file: 'pxelinux.0'
+dnsmasq_domain_needed: true
+dnsmasq_bogus_priv: true
+dnsmasq_authoritative: true
+dnsmasq_expand_hosts: true
